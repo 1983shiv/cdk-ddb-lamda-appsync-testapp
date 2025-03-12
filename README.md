@@ -1,4 +1,12 @@
-# Welcome to your CDK TypeScript project
+# 👋 Hi, I’m Shiv Srivastava
+
+### A Full-Stack Developer
+<h3 text-align="center"><a href="mailto:1983.shiv@gmail.com" >Let's Connect</a></h3>
+
+---
+
+
+## Welcome to your CDK TypeScript project
 
 This is a blank project for CDK development with TypeScript.
 
