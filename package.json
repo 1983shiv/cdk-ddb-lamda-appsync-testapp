@@ -1,14 +1,15 @@
-{
+ {
   "name": "ruffbook",
   "version": "0.1.0",
   "bin": {
-    "ruffbook": "bin/ruffbook.js"
+    "backend": "bin/backend.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "cdk synth && cdk deploy --all"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
