@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import * as iam from "aws-cdk-lib/aws-iam";
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
@@ -12,6 +13,7 @@ export class ComputeStack extends cdk.Stack {
     public readonly addUserToTableFunc: NodejsFunction;
     constructor(scope: Construct, id: string, props: computeStack){
         super(scope, id, props);
+        this.addUserToTableFunc = this.addUserToUsersTable(props);
     }
 
     addUserToUsersTable(props: computeStack){
@@ -24,6 +26,13 @@ export class ComputeStack extends cdk.Stack {
                 TABLE_NAME: props.usersTable.tableName
             }
         })
+        func.addToRolePolicy(
+            new iam.PolicyStatement({
+                actions: ["dynamodb:PutItem"],
+                resources: [props.usersTable.tableArn as string]
+            })
+        )
+        return func;
     }
     
 }

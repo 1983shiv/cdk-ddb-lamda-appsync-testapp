@@ -17,5 +17,5 @@ export class DatabaseStack extends cdk.Stack {
             billingMode: BillingMode.PAY_PER_REQUEST,
             removalPolicy: cdk.RemovalPolicy.DESTROY
         });
-  }
+    }
 }
