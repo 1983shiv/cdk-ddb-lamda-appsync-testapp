@@ -9,12 +9,14 @@ import { AppsyncStack } from "../stacks/appsync-stack";
 const app = new cdk.App();
 const databaseStack = new DatabaseStack(app, 'DatabaseStack');
 const computeStack = new ComputeStack(app, 'ComputeStack', {
-  usersTable: databaseStack.usersTable
+  usersTable: databaseStack.usersTable,
+  todosTable: databaseStack.todosTable
 });
 const authStack = new AuthStack(app, 'AuthStack', {
   addUserPostConfirmation: computeStack.addUserToTableFunc
 });
 
 const appsyncStack = new AppsyncStack(app, 'AppsyncStack', {
-  userPool: authStack.todoUserPool
+  userPool: authStack.todoUserPool,
+  createTodoFunc: computeStack.createTodoFunc
 })
