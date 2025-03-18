@@ -11,7 +11,7 @@ export const user_exists_in_UsersTable = async( userSub:string):Promise<any> => 
 
     console.log(`Looking for a , ${userSub}`)
     const params = {
-        TableName: process.env.USER_TABLE,
+        TableName: "Users",
         Key: {
             UserID: {S: userSub}
         }
