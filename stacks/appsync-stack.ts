@@ -59,7 +59,7 @@ export class AppsyncStack extends cdk.Stack {
 
     listTodoResolver(scope: Construct, api: awsAppsync.GraphqlApi, props: AppsyncStackProps){
         const listTodoResolver = api.addLambdaDataSource('listTodoDataSource', props.listTodoFunc);
-        listTodoResolver.createResolver('createTodoMutation', {
+        listTodoResolver.createResolver('listTodoQuery', {
             typeName: 'Query',
             fieldName: 'listTodos',
         })    
