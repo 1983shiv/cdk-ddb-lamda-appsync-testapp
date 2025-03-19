@@ -1,7 +1,21 @@
 import * as cognito from "@aws-sdk/client-cognito-identity-provider"
 
 import * as dotenv from "dotenv"
+import { makeGraphQLRequest } from "../utils"
 dotenv.config()
+
+interface CreateTodoInput {
+    UserID: string,
+    title: string
+}
+
+interface CreateTodoResponse {
+    UserID: string,
+    TodoID: string,
+    title: string,
+    completed: boolean
+
+}
 
 // region: "eu-west-1"
 const cognitoClient = new cognito.CognitoIdentityProviderClient({ region: process.env.AWS_REGION as string });
@@ -31,4 +45,32 @@ export const a_user_signs_up = async (email:string, password:string, name:string
     console.log(`${email} --> Signed Up`)
 
     return userSub as string;
+}
+
+export const we_invoke_create_todo = async(user:any, todoData:CreateTodoInput):Promise<any> => {
+    const createTodoMutation = `
+        mutation CreateTodo($UserID: String!, $title: String!) {
+            createTodo(UserID: $UserID, title: $title) {
+                UserID
+                TodoID
+                title
+                completed
+            }
+        }
+    `;
+    const variables = {
+        input: todoData
+    }
+
+    let result: any;
+    try {
+        result = await makeGraphQLRequest(createTodoMutation, variables, user.accessToken)
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+
+    console.log(`Results ::: ${result}`)
+    console.log(`[${user.username}] === Created a TODO`)
+    return result.createTodo as CreateTodoResponse
 }
