@@ -9,6 +9,7 @@ import { UserPool } from 'aws-cdk-lib/aws-cognito';
 interface AppsyncStackProps extends cdk.StackProps {
     userPool: UserPool;
     createTodoFunc: NodejsFunction;
+    listTodoFunc: NodejsFunction;
 }
 
 export class AppsyncStack extends cdk.Stack {
@@ -17,6 +18,7 @@ export class AppsyncStack extends cdk.Stack {
         super(scope, id, props);
         this.api = this.createAppsyncApi(props);
         this.createTodoResolver(this, this.api, props);
+        this.listTodoResolver(this, this.api, props);
     }
 
     createAppsyncApi(props: AppsyncStackProps) {
@@ -52,7 +54,14 @@ export class AppsyncStack extends cdk.Stack {
         createTodoResolver.createResolver('createTodoMutation', {
             typeName: 'Mutation',
             fieldName: 'createTodo',
-        })
-    
+        })    
+    }
+
+    listTodoResolver(scope: Construct, api: awsAppsync.GraphqlApi, props: AppsyncStackProps){
+        const listTodoResolver = api.addLambdaDataSource('listTodoDataSource', props.listTodoFunc);
+        listTodoResolver.createResolver('createTodoMutation', {
+            typeName: 'Query',
+            fieldName: 'listTodos',
+        })    
     }
 }

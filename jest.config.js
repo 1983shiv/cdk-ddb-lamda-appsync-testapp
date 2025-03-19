@@ -3,7 +3,8 @@ module.exports = {
   roots: ['<rootDir>/__tests__/test_cases'],
   testMatch: ['**/*.test.ts'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.(js|jsx)$": "babel-jest"
   },
-  testTimeOut: 90000
+  testTimeout: 90000
 };
