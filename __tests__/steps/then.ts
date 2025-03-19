@@ -1,8 +1,10 @@
 import { DynamoDBClient, GetItemCommand  } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
+
+
 const ddbclient = new DynamoDBClient({
-    region: "eu-west-1"
+    region: process.env.AWS_REGION as string
 });
 
 

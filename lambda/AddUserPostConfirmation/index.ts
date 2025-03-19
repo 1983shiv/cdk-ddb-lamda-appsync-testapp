@@ -3,7 +3,7 @@ import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
 const client = new DynamoDBClient({
-    region: "eu-west-1"
+    region: process.env.AWS_REGION as string
 });
 
 exports.handler = async function(
@@ -30,6 +30,7 @@ exports.handler = async function(
         await client.send(new PutItemCommand(params));
     } catch (error) {
         console.log(error)
+        throw error;
     }
 
     return event;

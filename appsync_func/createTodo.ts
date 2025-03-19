@@ -4,18 +4,18 @@ import { AppSyncResolverEvent } from "aws-lambda";
 import { ulid } from "ulid";
 
 const ddbClient = new DynamoDBClient({
-    region: process.env.AWS_REGION
+    region: process.env.AWS_REGION as string
 });
 
-const TABLE_NAME = 'Todos'
+// const TABLE_NAME = 'Todos'
 
-export const handler = async (event: AppSyncResolverEvent<{ input: { title: string, UserID: string } }>) => {
+export const handler = async (event: AppSyncResolverEvent<any>) => {
     console.log('event:::', JSON.stringify(event, null, 2));
     const { UserID, title } = event.arguments.input;
     const TodoID = ulid();
     // const now = new Date().toISOString();
     const item: PutItemCommandInput = {
-        TableName: TABLE_NAME,
+        TableName: "Todos",
         Item: marshall({
             UserID,
             TodoID,
@@ -25,10 +25,10 @@ export const handler = async (event: AppSyncResolverEvent<{ input: { title: stri
     }
 
     try {
-        const command = new PutItemCommand(item);
-        await ddbClient.send(command);
+        await ddbClient.send(new PutItemCommand(item));
     } catch (error) {
         console.log('error:::', error);
+        throw error;
     }
 
     return { 

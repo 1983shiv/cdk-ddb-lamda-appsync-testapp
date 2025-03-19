@@ -4,7 +4,7 @@ import * as dotenv from "dotenv"
 dotenv.config()
 
 // region: "eu-west-1"
-const cognitoClient = new cognito.CognitoIdentityProviderClient({ region: "eu-west-1" });
+const cognitoClient = new cognito.CognitoIdentityProviderClient({ region: process.env.AWS_REGION as string });
 
 export const a_user_signs_up = async (email:string, password:string, name:string ):Promise<string> => {
     const userPoolId = process.env.ID_USER_POOL || "";

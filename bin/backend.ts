@@ -6,6 +6,9 @@ import { ComputeStack } from "../stacks/compute-stack";
 import { AuthStack } from "../stacks/auth-stack";
 import { AppsyncStack } from "../stacks/appsync-stack";
 
+import * as dotenv from "dotenv"
+dotenv.config()
+
 const app = new cdk.App();
 const databaseStack = new DatabaseStack(app, 'DatabaseStack');
 const computeStack = new ComputeStack(app, 'ComputeStack', {
