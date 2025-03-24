@@ -10,6 +10,7 @@ interface AppsyncStackProps extends cdk.StackProps {
     userPool: UserPool;
     createTodoFunc: NodejsFunction;
     listTodoFunc: NodejsFunction;
+    deleteTodoFunc: NodejsFunction
 }
 
 export class AppsyncStack extends cdk.Stack {
@@ -19,6 +20,7 @@ export class AppsyncStack extends cdk.Stack {
         this.api = this.createAppsyncApi(props);
         this.createTodoResolver(this, this.api, props);
         this.listTodoResolver(this, this.api, props);
+        this.deleteTodoResolver(this, this.api, props);
     }
 
     createAppsyncApi(props: AppsyncStackProps) {
@@ -62,6 +64,14 @@ export class AppsyncStack extends cdk.Stack {
         listTodoResolver.createResolver('listTodoQuery', {
             typeName: 'Query',
             fieldName: 'listTodos',
+        })    
+    }
+
+    deleteTodoResolver(scope: Construct, api: awsAppsync.GraphqlApi, props: AppsyncStackProps){
+        const deleteTodoResolver = api.addLambdaDataSource('deleteTodoDataSource', props.deleteTodoFunc);
+        deleteTodoResolver.createResolver('deleteTodoMutation', {
+            typeName: 'Mutation',
+            fieldName: 'deleteTodo',
         })    
     }
 }
