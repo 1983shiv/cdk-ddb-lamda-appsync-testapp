@@ -12,7 +12,7 @@ const ddbClient = new DynamoDBClient({
 export const handler = async (event: AppSyncResolverEvent<any>): Promise<boolean> => {
     try {
         const UserID = (event.identity as AppSyncIdentityCognito).username;
-        const title = event.arguments.title;
+        const title = event.arguments.input.title;
         const todoId = await getTodoId(UserID, title);
         console.log('todoId:::', todoId);
         const params: DeleteItemCommandInput = {
