@@ -24,6 +24,7 @@ export class ComputeStack extends cdk.Stack {
         this.addUserToTableFunc = this.addUserToUsersTable(props);
         this.createTodoFunc = this.createTodoFunction(props);
         this.listTodosFunc = this.listTodosFunction(props);
+        this.deleteTodoFunc = this.deleteTodoFunction(props);
     }
 
     addUserToUsersTable(props: computeStack){
@@ -72,6 +73,22 @@ export class ComputeStack extends cdk.Stack {
             new iam.PolicyStatement({
                 actions: ["dynamodb:Scan", "dynamodb:Query"],
                 resources: [props.todosTable.tableArn as string]
+            })
+        )
+        return func;
+    }
+
+    deleteTodoFunction(props: computeStack){
+        const func = new NodejsFunction(this, "deleteTodoFunc", {
+            functionName: "deleteTodoFunc",
+            runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
+            handler: "handler",
+            entry: path.join(__dirname, '../appsync_func/deleteTodos.ts'),
+        })
+        func.addToRolePolicy(
+            new iam.PolicyStatement({
+                actions: ["dynamodb:Delete", "dynamodb:Query"],
+                resources: [props.todosTable.tableArn as string, props.todosTable.tableArn + "/index/getTodoId"]
             })
         )
         return func;

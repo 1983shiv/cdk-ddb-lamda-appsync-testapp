@@ -1,4 +1,4 @@
-import { DynamoDBClient, ScanCommand, ScanCommandInput, QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import { AppSyncResolverEvent, AppSyncIdentityCognito } from "aws-lambda";
 
