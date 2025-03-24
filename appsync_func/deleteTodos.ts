@@ -20,10 +20,11 @@ export const handler = async (event: AppSyncResolverEvent<any>): Promise<boolean
             Key: marshall({
                 UserID: UserID,
                 TodoId: todoId[0].TodoID
-            })
-        }
+            }),
+        };
         const command = new DeleteItemCommand(params);
         const data = await ddbClient.send(command);
+        console.log("Delete successful:", data);
         if(data){
             return true;
         } else {

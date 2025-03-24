@@ -87,7 +87,7 @@ export class ComputeStack extends cdk.Stack {
         })
         func.addToRolePolicy(
             new iam.PolicyStatement({
-                actions: ["dynamodb:Delete", "dynamodb:Query"],
+                actions: ["dynamodb:DeleteItem", "dynamodb:Query"],
                 resources: [props.todosTable.tableArn as string, props.todosTable.tableArn + "/index/getTodoId"]
             })
         )
